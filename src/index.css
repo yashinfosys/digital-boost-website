@@ -130,6 +130,17 @@ option {
   animation: floatTech 5.5s ease-in-out infinite;
 }
 
+.toast-in {
+  animation: toastIn 0.28s ease both;
+}
+
+.typing-line {
+  overflow: hidden;
+  border-right: 2px solid rgba(250, 204, 21, 0.85);
+  animation: typing 5s steps(98, end) infinite alternate, caret 0.8s step-end infinite;
+  white-space: nowrap;
+}
+
 @keyframes floatShape {
   0%,
   100% {
@@ -159,6 +170,40 @@ option {
   50% {
     transform: translateY(-14px);
     opacity: 0.34;
+  }
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes typing {
+  from {
+    max-width: 0;
+  }
+  to {
+    max-width: 100%;
+  }
+}
+
+@keyframes caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@media (max-width: 640px) {
+  .typing-line {
+    white-space: normal;
+    border-right: 0;
+    animation: none;
   }
 }
 

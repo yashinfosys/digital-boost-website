@@ -2,7 +2,7 @@ import React from 'react';
 import SEO from '../components/SEO';
 import HeroSlider from '../components/HeroSlider';
 import CTA from '../components/CTA';
-import { AboutPremium, FAQ, PortfolioGrid, Process, SectionTitle, ServiceGrid, TechnologyStack, Testimonials, WhyChoose } from '../components/Sections';
+import { AboutPremium, FAQ, InfographicDashboard, PortfolioGrid, Process, SectionTitle, ServiceGrid, TechnologyStack, Testimonials, UpcomingAIFeatures, WhyChoose } from '../components/Sections';
 import { seoFaqs, services } from '../data';
 
 export default function Home() {
@@ -25,7 +25,9 @@ export default function Home() {
         </div>
       </section>
       <WhyChoose />
+      <InfographicDashboard />
       <TechnologyStack />
+      <UpcomingAIFeatures />
       <Process />
       <section className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">

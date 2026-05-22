@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { Link, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import {
   BarChart3,
@@ -90,6 +90,39 @@ const nav = [
   ['Settings', '/admin/settings', Settings],
   ['Admins', '/admin/admins', Shield],
 ];
+
+const ToastContext = createContext({ notify: () => {} });
+
+function ToastProvider({ children }) {
+  const [toasts, setToasts] = useState([]);
+  const notify = (type, text) => {
+    const id = Date.now();
+    setToasts((current) => [...current, { id, type, text }]);
+    window.setTimeout(() => setToasts((current) => current.filter((toast) => toast.id !== id)), 3000);
+  };
+
+  return (
+    <ToastContext.Provider value={{ notify }}>
+      {children}
+      <div className="fixed right-4 top-4 z-[120] grid w-[min(360px,calc(100vw-2rem))] gap-3">
+        {toasts.map((toast) => (
+          <div key={toast.id} className={`toast-in glass rounded-lg px-4 py-3 text-sm font-bold shadow-glow ${toast.type === 'error' ? 'border-red-400/40 text-red-100' : 'border-boost-yellow/40 text-white'}`}>
+            {toast.type === 'error' ? 'Error: ' : 'Details Saved Successfully'}
+            {toast.text && toast.text !== 'Details Saved Successfully' ? ` - ${toast.text}` : ''}
+          </div>
+        ))}
+      </div>
+    </ToastContext.Provider>
+  );
+}
+
+function useToast() {
+  return useContext(ToastContext);
+}
+
+function Spinner() {
+  return <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />;
+}
 
 function AdminLayout({ children }) {
   const navigate = useNavigate();
@@ -209,6 +242,8 @@ function ResourceManager({ type }) {
   const [form, setForm] = useState(empty);
   const [editing, setEditing] = useState(null);
   const [message, setMessage] = useState('');
+  const [saving, setSaving] = useState(false);
+  const { notify } = useToast();
 
   const load = () => apiRequest(config.endpoint).then(setItems);
   useEffect(() => {
@@ -219,16 +254,25 @@ function ResourceManager({ type }) {
 
   const save = async (event) => {
     event.preventDefault();
-    const payload = { ...form };
-    if (typeof payload.features === 'string') payload.features = payload.features.split('\n').filter(Boolean);
-    await apiRequest(editing ? `${config.endpoint}/${editing}` : config.endpoint, {
-      method: editing ? 'PUT' : 'POST',
-      body: JSON.stringify(payload),
-    });
-    setMessage('Saved successfully');
-    setForm(empty);
-    setEditing(null);
-    load();
+    setSaving(true);
+    try {
+      const payload = { ...form };
+      if (typeof payload.features === 'string') payload.features = payload.features.split('\n').filter(Boolean);
+      await apiRequest(editing ? `${config.endpoint}/${editing}` : config.endpoint, {
+        method: editing ? 'PUT' : 'POST',
+        body: JSON.stringify(payload),
+      });
+      setMessage('Saved successfully');
+      notify('success');
+      setForm(empty);
+      setEditing(null);
+      load();
+    } catch (err) {
+      notify('error', err.message);
+      setMessage(err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const edit = (item) => {
@@ -261,7 +305,10 @@ function ResourceManager({ type }) {
             ))}
           </div>
           {message && <p className="mt-3 text-sm font-bold text-boost-yellow">{message}</p>}
-          <button className="mt-5 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black">Save</button>
+          <button disabled={saving} className="mt-5 inline-flex items-center gap-2 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black disabled:opacity-60">
+            {saving && <Spinner />}
+            {saving ? 'Saving...' : 'Save'}
+          </button>
         </form>
         <div className="glass overflow-hidden rounded-lg p-5">
           <h2 className="text-xl font-black">{config.title}</h2>
@@ -368,6 +415,8 @@ function MediaManager() {
 function SettingsPage() {
   const [items, setItems] = useState([]);
   const [value, setValue] = useState('');
+  const [saving, setSaving] = useState(false);
+  const { notify } = useToast();
   useEffect(() => {
     apiRequest('/settings').then((data) => {
       setItems(data);
@@ -375,8 +424,15 @@ function SettingsPage() {
     }).catch(() => {});
   }, []);
   const save = async () => {
-    await apiRequest('/settings/website', { method: 'PUT', body: JSON.stringify({ value: JSON.parse(value) }) });
-    alert('Settings saved. Yash Infosystems credit is protected by API.');
+    setSaving(true);
+    try {
+      await apiRequest('/settings/website', { method: 'PUT', body: JSON.stringify({ value: JSON.parse(value) }) });
+      notify('success');
+    } catch (err) {
+      notify('error', err.message);
+    } finally {
+      setSaving(false);
+    }
   };
   return (
     <AdminLayout>
@@ -384,7 +440,10 @@ function SettingsPage() {
         <h2 className="text-xl font-black">Website Settings</h2>
         <p className="mt-2 text-sm text-zinc-400">Developer credit is enforced server-side and cannot be removed.</p>
         <textarea className="mt-5 min-h-[420px] w-full rounded-md border border-white/10 bg-black/45 p-4 font-mono text-sm outline-none focus:border-boost-yellow" value={value} onChange={(event) => setValue(event.target.value)} />
-        <button onClick={save} className="mt-4 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black">Save Settings</button>
+        <button onClick={save} disabled={saving} className="mt-4 inline-flex items-center gap-2 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black disabled:opacity-60">
+          {saving && <Spinner />}
+          {saving ? 'Saving...' : 'Save Settings'}
+        </button>
       </div>
     </AdminLayout>
   );
@@ -393,6 +452,8 @@ function SettingsPage() {
 function ContactDetailsPage() {
   const [form, setForm] = useState(defaultContactSettings);
   const [message, setMessage] = useState('');
+  const [saving, setSaving] = useState(false);
+  const { notify } = useToast();
   const contact = useMemo(() => normalizeContactSettings(form), [form]);
 
   useEffect(() => {
@@ -408,18 +469,27 @@ function ContactDetailsPage() {
 
   const save = async (event) => {
     event.preventDefault();
-    const payload = {
-      ...form,
-      phoneNumber: contact.phoneNumber,
-      alternatePhoneNumber: contact.alternatePhoneNumber,
-      whatsappNumber: contact.whatsappNumber,
-    };
-    await apiRequest('/settings/contact', {
-      method: 'PUT',
-      body: JSON.stringify({ value: payload }),
-    });
-    setForm(payload);
-    setMessage('Contact details saved successfully');
+    setSaving(true);
+    try {
+      const payload = {
+        ...form,
+        phoneNumber: contact.phoneNumber,
+        alternatePhoneNumber: contact.alternatePhoneNumber,
+        whatsappNumber: contact.whatsappNumber,
+      };
+      await apiRequest('/settings/contact', {
+        method: 'PUT',
+        body: JSON.stringify({ value: payload }),
+      });
+      setForm(payload);
+      setMessage('Contact details saved successfully');
+      notify('success');
+    } catch (err) {
+      setMessage(err.message);
+      notify('error', err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const fields = [
@@ -444,7 +514,10 @@ function ContactDetailsPage() {
             <h2 className="mt-2 text-2xl font-black">Contact Details</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">Manage phone, WhatsApp, email, website, address and map details shown on the website.</p>
           </div>
-          <button className="rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black">Save Details</button>
+          <button disabled={saving} className="inline-flex items-center gap-2 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black disabled:opacity-60">
+            {saving && <Spinner />}
+            {saving ? 'Saving...' : 'Save Details'}
+          </button>
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
@@ -495,6 +568,8 @@ function ContactDetailsPage() {
 function SettingsFormPage({ settingKey, title, eyebrow, description, defaults, fields, preview }) {
   const [form, setForm] = useState(defaults);
   const [message, setMessage] = useState('');
+  const [saving, setSaving] = useState(false);
+  const { notify } = useToast();
 
   useEffect(() => {
     apiRequest('/settings/public')
@@ -509,11 +584,20 @@ function SettingsFormPage({ settingKey, title, eyebrow, description, defaults, f
 
   const save = async (event) => {
     event.preventDefault();
-    await apiRequest(`/settings/${settingKey}`, {
-      method: 'PUT',
-      body: JSON.stringify({ value: form }),
-    });
-    setMessage(`${title} saved successfully`);
+    setSaving(true);
+    try {
+      await apiRequest(`/settings/${settingKey}`, {
+        method: 'PUT',
+        body: JSON.stringify({ value: form }),
+      });
+      setMessage(`${title} saved successfully`);
+      notify('success');
+    } catch (err) {
+      setMessage(err.message);
+      notify('error', err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -525,7 +609,10 @@ function SettingsFormPage({ settingKey, title, eyebrow, description, defaults, f
             <h2 className="mt-2 text-2xl font-black">{title}</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">{description}</p>
           </div>
-          <button className="rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black">Save</button>
+          <button disabled={saving} className="inline-flex items-center gap-2 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black disabled:opacity-60">
+            {saving && <Spinner />}
+            {saving ? 'Saving...' : 'Save'}
+          </button>
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
@@ -657,18 +744,20 @@ function AdminsPage() {
 
 export default function AdminApp() {
   return (
-    <Routes>
-      <Route path="login" element={<Login />} />
-      <Route index element={<Dashboard />} />
-      {Object.keys(resources).map((type) => <Route key={type} path={type} element={<ResourceManager type={type} />} />)}
-      <Route path="inquiries" element={<Inquiries />} />
-      <Route path="media" element={<MediaManager />} />
-      <Route path="contact-details" element={<ContactDetailsPage />} />
-      <Route path="seo-schema" element={<SeoSchemaPage />} />
-      <Route path="technology-stack" element={<TechnologyStackPage />} />
-      <Route path="social-links" element={<SocialLinksPage />} />
-      <Route path="settings" element={<SettingsPage />} />
-      <Route path="admins" element={<AdminsPage />} />
-    </Routes>
+    <ToastProvider>
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route index element={<Dashboard />} />
+        {Object.keys(resources).map((type) => <Route key={type} path={type} element={<ResourceManager type={type} />} />)}
+        <Route path="inquiries" element={<Inquiries />} />
+        <Route path="media" element={<MediaManager />} />
+        <Route path="contact-details" element={<ContactDetailsPage />} />
+        <Route path="seo-schema" element={<SeoSchemaPage />} />
+        <Route path="technology-stack" element={<TechnologyStackPage />} />
+        <Route path="social-links" element={<SocialLinksPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="admins" element={<AdminsPage />} />
+      </Routes>
+    </ToastProvider>
   );
 }
