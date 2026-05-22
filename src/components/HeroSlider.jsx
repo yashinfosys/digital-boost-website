@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight, Bot, Cloud, MessageCircle, Search, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { heroSlides, stats } from '../data';
 import { useContactSettings } from '../lib/contactSettings';
@@ -11,6 +11,7 @@ export default function HeroSlider() {
   const contact = useContactSettings();
   const slide = heroSlides[active];
   const Icon = slide.icon;
+  const techIcons = [Bot, Cloud, Search, Sparkles];
 
   useEffect(() => {
     const timer = window.setInterval(() => setActive((current) => (current + 1) % heroSlides.length), 5200);
@@ -19,8 +20,10 @@ export default function HeroSlider() {
 
   return (
     <section className="relative isolate overflow-hidden pt-28">
+      <div className="ai-grid-bg" />
       <div className="shape shape-one" />
       <div className="shape shape-two" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.88),rgba(0,0,0,0.55)),radial-gradient(circle_at_72%_22%,rgba(250,204,21,0.22),transparent_34rem)]" />
       <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-7xl items-center gap-10 px-4 pb-20 pt-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
         <div>
           <AnimatePresence mode="wait">
@@ -41,9 +44,13 @@ export default function HeroSlider() {
               Get Free Consultation
               <ArrowRight size={18} />
             </Link>
+            <Link to="/services" className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-6 py-4 text-sm font-black text-black transition hover:bg-boost-yellow">
+              View Services
+              <ArrowRight size={18} />
+            </Link>
             <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-md border border-boost-yellow/40 px-6 py-4 text-sm font-black text-white transition hover:bg-boost-yellow hover:text-black">
               <MessageCircle size={18} />
-              WhatsApp Now
+              Start Digital Growth
             </a>
           </div>
           <div className="mt-6 flex gap-2" aria-label="Hero slider controls">
@@ -54,7 +61,14 @@ export default function HeroSlider() {
         </div>
 
         <motion.div className="agency-panel glass relative overflow-hidden rounded-[1.7rem] p-5 sm:p-7" initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7 }}>
-          <img src="/assets/digital-boost-logo.png" alt="Digital Boost" className="mb-10 h-16 w-auto max-w-[280px] object-contain sm:h-20" />
+          <img src="/assets/digital-boost-logo.png" alt="Digital Boost AI hospitality marketing company logo" className="mb-10 h-16 w-auto max-w-[280px] object-contain sm:h-20" />
+          <div className="pointer-events-none absolute right-5 top-5 grid grid-cols-2 gap-3">
+            {techIcons.map((TechIcon, index) => (
+              <div key={index} className="floating-tech grid h-12 w-12 place-items-center rounded-md border border-boost-yellow/25 bg-black/45 text-boost-yellow backdrop-blur" style={{ animationDelay: `${index * 0.35}s` }}>
+                <TechIcon size={20} />
+              </div>
+            ))}
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {stats.map(([value, label]) => (
               <div key={label} className="rounded-lg border border-white/10 bg-black/45 p-4 backdrop-blur">

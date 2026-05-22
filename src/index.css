@@ -94,6 +94,42 @@ option {
     linear-gradient(145deg, rgba(250, 204, 21, 0.08), rgba(0, 0, 0, 0.84));
 }
 
+.ai-grid-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: 0.28;
+  background-image:
+    linear-gradient(rgba(250, 204, 21, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250, 204, 21, 0.14) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+  animation: gridPulse 8s ease-in-out infinite;
+}
+
+.tech-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.tech-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 22% 12%, rgba(250, 204, 21, 0.2), transparent 36%);
+  transition: opacity 0.25s ease;
+}
+
+.tech-card:hover::before {
+  opacity: 1;
+}
+
+.floating-tech {
+  animation: floatTech 5.5s ease-in-out infinite;
+}
+
 @keyframes floatShape {
   0%,
   100% {
@@ -101,6 +137,28 @@ option {
   }
   50% {
     transform: translate3d(0, -18px, 30px) rotate(16deg);
+  }
+}
+
+@keyframes floatTech {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes gridPulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.22;
+  }
+  50% {
+    transform: translateY(-14px);
+    opacity: 0.34;
   }
 }
 

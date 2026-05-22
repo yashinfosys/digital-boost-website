@@ -84,6 +84,9 @@ const nav = [
   ['Inquiries', '/admin/inquiries', BarChart3],
   ['Media', '/admin/media', Image],
   ['Contact Details', '/admin/contact-details', Phone],
+  ['SEO & Schema', '/admin/seo-schema', Sparkles],
+  ['Technology Stack', '/admin/technology-stack', Settings],
+  ['Social Links', '/admin/social-links', Users],
   ['Settings', '/admin/settings', Settings],
   ['Admins', '/admin/admins', Shield],
 ];
@@ -420,8 +423,8 @@ function ContactDetailsPage() {
   };
 
   const fields = [
-    ['phone', 'Display Phone Number', 'text', 'Example: +91 9554589777'],
-    ['phoneNumber', 'Call Number Digits', 'text', 'Example: 919554589777'],
+    ['phone', 'Display Phone Number', 'text', 'Example: +91 522 4060841'],
+    ['phoneNumber', 'Call Number Digits', 'text', 'Example: 915224060841'],
     ['alternatePhone', 'Alternate Phone Display', 'text', 'Optional'],
     ['alternatePhoneNumber', 'Alternate Call Digits', 'text', 'Optional'],
     ['whatsappNumber', 'WhatsApp Number Digits', 'text', 'Example: 919554589777'],
@@ -489,6 +492,133 @@ function ContactDetailsPage() {
   );
 }
 
+function SettingsFormPage({ settingKey, title, eyebrow, description, defaults, fields, preview }) {
+  const [form, setForm] = useState(defaults);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    apiRequest('/settings/public')
+      .then((data) => setForm({ ...defaults, ...(data[settingKey] || {}) }))
+      .catch(() => setForm(defaults));
+  }, [settingKey]);
+
+  const updateField = (field, value) => {
+    setMessage('');
+    setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const save = async (event) => {
+    event.preventDefault();
+    await apiRequest(`/settings/${settingKey}`, {
+      method: 'PUT',
+      body: JSON.stringify({ value: form }),
+    });
+    setMessage(`${title} saved successfully`);
+  };
+
+  return (
+    <AdminLayout>
+      <form onSubmit={save} className="glass rounded-lg p-5">
+        <div className="flex flex-col gap-4 border-b border-white/10 pb-5 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-boost-yellow">{eyebrow}</p>
+            <h2 className="mt-2 text-2xl font-black">{title}</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">{description}</p>
+          </div>
+          <button className="rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black">Save</button>
+        </div>
+
+        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+          {fields.map(([field, label, type, placeholder]) => (
+            <label key={field} className={`grid gap-1 text-sm font-bold text-zinc-300 ${type === 'textarea' || type === 'json' ? 'lg:col-span-2' : ''}`}>
+              {label}
+              {type === 'textarea' || type === 'json' ? (
+                <textarea className="min-h-28 rounded-md border border-white/10 bg-black/45 px-3 py-2 font-mono text-sm text-white outline-none focus:border-boost-yellow" placeholder={placeholder} value={form[field] || ''} onChange={(event) => updateField(field, event.target.value)} />
+              ) : (
+                <input type={type} className="rounded-md border border-white/10 bg-black/45 px-3 py-2 text-white outline-none focus:border-boost-yellow" placeholder={placeholder} value={form[field] || ''} onChange={(event) => updateField(field, event.target.value)} />
+              )}
+            </label>
+          ))}
+        </div>
+        {message && <p className="mt-4 rounded-md border border-boost-yellow/35 bg-boost-yellow/10 px-4 py-3 text-sm font-bold text-white">{message}</p>}
+      </form>
+      {preview?.(form)}
+    </AdminLayout>
+  );
+}
+
+function SeoSchemaPage() {
+  return (
+    <SettingsFormPage
+      settingKey="seoSchema"
+      eyebrow="SEO Management"
+      title="SEO & Schema Settings"
+      description="Manage global SEO previews, Open Graph image, schema business details and dynamic schema generator JSON."
+      defaults={{
+        metaTitle: 'Hotel Digital Marketing Company | AI Hospitality Marketing Agency | Digital Boost',
+        metaDescription: 'Digital Boost helps hotels, restaurants and resorts grow with AI marketing, Google review management, Meta Ads, SEO, website development and smart QR review systems.',
+        keywords: 'Hotel Digital Marketing Company, Hospitality Marketing Agency, AI Review Management System, Hotel Website Development',
+        ogImage: '/assets/digital-boost-logo.png',
+        schemaJson: '{"industry":"Hospitality Digital Marketing & Technology","location":"Lucknow, Uttar Pradesh, India"}',
+      }}
+      fields={[
+        ['metaTitle', 'Default Meta Title', 'text', 'SEO title'],
+        ['ogImage', 'OpenGraph Image URL', 'text', '/assets/digital-boost-logo.png'],
+        ['metaDescription', 'Default Meta Description', 'textarea', 'SEO description'],
+        ['keywords', 'Target Keywords', 'textarea', 'Comma separated keywords'],
+        ['schemaJson', 'Dynamic Schema Generator JSON', 'json', '{"industry":"..."}'],
+      ]}
+      preview={(form) => (
+        <div className="glass mt-6 rounded-lg p-5">
+          <h3 className="text-lg font-black">SEO Preview</h3>
+          <div className="mt-4 rounded-lg bg-white p-4 text-black">
+            <p className="text-lg text-[#1a0dab]">{form.metaTitle}</p>
+            <p className="text-sm text-[#006621]">https://dboost.yashinfosystem.in</p>
+            <p className="mt-1 text-sm text-zinc-700">{form.metaDescription}</p>
+          </div>
+        </div>
+      )}
+    />
+  );
+}
+
+function TechnologyStackPage() {
+  return (
+    <SettingsFormPage
+      settingKey="technologyStack"
+      eyebrow="Technology CMS"
+      title="Technology Stack"
+      description="Manage the homepage Technology We Use cards. Enter one card per line: Name | Logo URL | Description."
+      defaults={{ itemsText: '' }}
+      fields={[['itemsText', 'Technology Cards', 'textarea', 'AWS | https://cdn.simpleicons.org/amazonaws/FF9900 | Cloud hosting and scalable infrastructure']]}
+      preview={() => (
+        <div className="glass mt-6 rounded-lg p-5 text-sm leading-7 text-zinc-300">
+          Frontend currently uses production defaults unless custom parsing is connected. This field keeps CMS-managed technology copy ready for the next API normalization step.
+        </div>
+      )}
+    />
+  );
+}
+
+function SocialLinksPage() {
+  return (
+    <SettingsFormPage
+      settingKey="socialLinks"
+      eyebrow="Brand Presence"
+      title="Social Links"
+      description="Manage social profile links used for brand schema, footer expansion and campaign pages."
+      defaults={{ facebook: '', instagram: '', linkedin: '', youtube: '', googleBusiness: '' }}
+      fields={[
+        ['facebook', 'Facebook URL', 'url', 'https://facebook.com/...'],
+        ['instagram', 'Instagram URL', 'url', 'https://instagram.com/...'],
+        ['linkedin', 'LinkedIn URL', 'url', 'https://linkedin.com/company/...'],
+        ['youtube', 'YouTube URL', 'url', 'https://youtube.com/...'],
+        ['googleBusiness', 'Google Business Profile URL', 'url', 'https://g.page/...'],
+      ]}
+    />
+  );
+}
+
 function AdminsPage() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'admin', status: 'active' });
@@ -534,6 +664,9 @@ export default function AdminApp() {
       <Route path="inquiries" element={<Inquiries />} />
       <Route path="media" element={<MediaManager />} />
       <Route path="contact-details" element={<ContactDetailsPage />} />
+      <Route path="seo-schema" element={<SeoSchemaPage />} />
+      <Route path="technology-stack" element={<TechnologyStackPage />} />
+      <Route path="social-links" element={<SocialLinksPage />} />
       <Route path="settings" element={<SettingsPage />} />
       <Route path="admins" element={<AdminsPage />} />
     </Routes>

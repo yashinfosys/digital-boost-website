@@ -1,7 +1,7 @@
 import React from 'react';
 import SEO from '../components/SEO';
 import CTA from '../components/CTA';
-import { PageHero, Process, SectionTitle, WhyChoose } from '../components/Sections';
+import { AboutPremium, PageHero, Process, SectionTitle, TechnologyStack, WhyChoose } from '../components/Sections';
 
 const skills = [
   ['Hospitality Digital Marketing', 95],
@@ -14,15 +14,16 @@ export default function About() {
   return (
     <>
       <SEO
-        title="About Digital Boost | A Digital Unit Of Yash Infosystems"
-        description="Digital Boost is a digital marketing unit of Yash Infosystems, a 14+ year old IT company helping hospitality businesses build strong digital presence."
+        title="About Digital Boost | AI Hospitality Digital Marketing By Yash Infosystems"
+        description="Digital Boost is a Digital Unit of Yash Infosystems helping hotels, restaurants, cafes, resorts and local businesses grow with AI, cloud technology, automation, SEO and performance marketing."
         path="/about"
       />
       <PageHero
         eyebrow="About Us"
-        title="Digital Boost Is Built For Hospitality Digital Transformation"
-        text="Digital Boost is a digital marketing unit of Yash Infosystems, a 14+ year old IT company helping hospitality businesses build strong digital presence with marketing, AI automation, Google tools and websites."
+        title="Digital Boost Is Built For AI-Powered Hospitality Digital Transformation"
+        text="Digital Boost is a Digital Unit of Yash Infosystems helping hotels, restaurants, cafes, resorts, rooftop bars, banquet halls and local businesses grow digitally using AI, cloud technology, automation, branding and performance marketing."
       />
+      <AboutPremium />
       <section className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="glass rounded-2xl p-6 sm:p-8">
@@ -49,6 +50,7 @@ export default function About() {
           </div>
         </div>
       </section>
+      <TechnologyStack />
       <section className="bg-white/[0.03] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <SectionTitle eyebrow="Parent Company" title="Backed By Yash Infosystems">

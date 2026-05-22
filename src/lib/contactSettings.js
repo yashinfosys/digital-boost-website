@@ -2,13 +2,13 @@ import { useMemo } from 'react';
 import { usePublicData } from './usePublicData';
 
 export const defaultContactSettings = {
-  phone: '+91 9554589777',
-  phoneNumber: '919554589777',
+  phone: '+91 522 4060841',
+  phoneNumber: '915224060841',
   alternatePhone: '',
   alternatePhoneNumber: '',
   whatsappNumber: '919554589777',
   whatsappMessage: 'Hello Digital Boost, I want to know more about your services.',
-  email: '',
+  email: 'info@yashinfosystem.in',
   website: 'dboost.yashinfosystem.in',
   address: '',
   mapEmbedUrl:

@@ -28,9 +28,9 @@ await Admin.findOneAndUpdate(
 );
 
 const pages = [
-  ['home', 'Home', 'Helping Hospitality Brands Grow Their Digital Presence Since 14+ Years'],
-  ['about', 'About', 'Digital Boost Is Built For Hospitality Digital Transformation'],
-  ['services', 'Services', 'SEO-Friendly Digital Marketing Services For Hospitality Brands'],
+  ['home', 'Home', 'AI-Powered Digital Growth for Hotels, Restaurants & Hospitality Brands'],
+  ['about', 'About', 'Digital Boost Is Built For AI-Powered Hospitality Digital Transformation'],
+  ['services', 'Services', 'Hospitality Digital Marketing, SEO, Reviews And Website Growth'],
   ['packages', 'Packages', 'Digital Boost Packages For Every Hospitality Growth Stage'],
   ['ai-review-system', 'AI Review System', 'AI Review Management For Genuine Customer Feedback'],
   ['hospitality-marketing', 'Hospitality Marketing', 'Hotel, Restaurant, Resort, Cafe And Banquet Lead Generation'],
@@ -50,7 +50,12 @@ for (const [slug, title, h1] of pages) {
       seoDescription: `Digital Boost ${title.toLowerCase()} content for hospitality digital marketing, AI automation, GMB setup, Meta ads and website development.`,
       seoKeywords,
       h1,
-      content: `${title} CMS content managed from admin panel.`,
+      content:
+        slug === 'about'
+          ? 'Digital Boost is a Digital Unit of Yash Infosystems helping hotels, restaurants, cafes, resorts, rooftop bars, banquet halls and local businesses grow digitally using AI, cloud technology, automation, branding and performance marketing. Our work includes AI review management, Google Business optimization, Meta Ads, hospitality SEO, hotel website development, QR based smart marketing, smart CMS solutions, cloud based business automation and analytics tracking.'
+          : slug === 'home'
+            ? 'From Google Visibility to Viral Branding, Digital Boost helps hospitality businesses grow with AI marketing, cloud technology, automation and performance campaigns.'
+            : `${title} CMS content managed from admin panel.`,
       ctaText: 'Get Free Consultation',
       ctaButtonText: 'Contact Digital Boost',
       ctaButtonLink: '/contact',
@@ -141,9 +146,14 @@ for (const title of ['How Hotels Can Increase Direct Bookings', 'Why Google My B
 }
 
 for (const [question, answer] of [
-  ['Do you create fake reviews?', 'No. Digital Boost supports genuine customer-approved feedback only.'],
-  ['What is the landing page price?', 'Landing page websites start at Rs. 1,999/-.'],
-  ['Can you set up Google My Business?', 'Yes. We help with Google Business Profile setup and local visibility direction.'],
+  ['What services does Digital Boost provide?', 'Digital Boost provides hospitality digital marketing, hotel website development, restaurant social media marketing, Google Business optimization, Meta Ads, SEO, AI review management, QR review systems, smart CMS solutions and cloud based automation.'],
+  ['How does AI Review Management work?', 'Our AI review management workflow uses QR based feedback capture, internal negative feedback alerts, review response suggestions and analytics to help hotels and restaurants improve reputation without creating fake reviews.'],
+  ['Why do hotels need digital marketing?', 'Hotels need digital marketing to increase Google visibility, direct inquiries, room bookings, banquet leads, restaurant footfall, brand trust and repeat guest engagement across search, social and review platforms.'],
+  ['Do you provide hotel website development?', 'Yes. Digital Boost builds fast, mobile responsive and SEO-ready hotel websites with inquiry forms, WhatsApp CTA, gallery, service pages, Google Map, booking flows and CMS management.'],
+  ['How can Digital Boost improve Google reviews?', 'Digital Boost improves Google review performance through guest-friendly QR feedback, response templates, AI reply suggestions, review monitoring, staff alerts and genuine customer experience workflows.'],
+  ['Do you provide Meta Ads services?', 'Yes. We plan and manage Meta Ads campaigns for hotels, restaurants, cafes, resorts, rooftops and banquet halls with lead generation, offer campaigns, retargeting and creative strategy.'],
+  ['What industries do you support?', 'We support hotels, restaurants, cafes, resorts, rooftop bars, banquet halls, local service businesses, shops, consultants and growing brands that need stronger digital visibility.'],
+  ['Do you create custom CMS systems?', 'Yes. Backed by Yash Infosystems, Digital Boost creates custom CMS dashboards, smart inquiry systems, cloud automation tools, analytics panels and business workflow software.'],
 ]) {
   await FAQ.findOneAndUpdate({ question }, { question, answer, pageCategory: 'general', status: 'active' }, { upsert: true });
 }
@@ -164,9 +174,9 @@ await Setting.findOneAndUpdate(
       logo: '/assets/digital-boost-logo.png',
       favicon: '',
       brandColor: '#facc15',
-      phone: '+91 9554589777',
+      phone: '+91 522 4060841',
       whatsapp: '919554589777',
-      email: '',
+      email: 'info@yashinfosystem.in',
       website: 'dboost.yashinfosystem.in',
       address: '',
       googleMapLink: '',
@@ -185,17 +195,49 @@ await Setting.findOneAndUpdate(
   {
     key: 'contact',
     value: {
-      phone: '+91 9554589777',
-      phoneNumber: '919554589777',
+      phone: '+91 522 4060841',
+      phoneNumber: '915224060841',
       alternatePhone: '',
       alternatePhoneNumber: '',
       whatsappNumber: '919554589777',
       whatsappMessage: 'Hello Digital Boost, I want to know more about your services.',
-      email: '',
+      email: 'info@yashinfosystem.in',
       website: 'dboost.yashinfosystem.in',
       address: '',
       mapEmbedUrl:
         'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.2517055678886!2d80.9151396!3d26.8319454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfdc81b59bfcf%3A0xf0bd1fc52e663df0!2sDigital%20Boost!5e0!3m2!1sen!2sin!4v1779213792582!5m2!1sen!2sin',
+    },
+  },
+  { upsert: true },
+);
+
+await Setting.findOneAndUpdate(
+  { key: 'seoSchema' },
+  {
+    key: 'seoSchema',
+    value: {
+      metaTitle: 'Hotel Digital Marketing Company | AI Hospitality Marketing Agency | Digital Boost',
+      metaDescription:
+        'Digital Boost helps hotels, restaurants and resorts grow with AI marketing, Google review management, Meta Ads, SEO, website development and smart QR review systems.',
+      keywords:
+        'Hotel Digital Marketing Company, Hospitality Marketing Agency, AI Review Management System, Hotel Website Development, Restaurant Social Media Marketing, Google Review Management, Resort Lead Generation, Hospitality SEO Services, Smart QR Review System, Hotel Branding Agency',
+      ogImage: '/assets/digital-boost-logo.png',
+      schemaJson: '{"industry":"Hospitality Digital Marketing & Technology","location":"Lucknow, Uttar Pradesh, India"}',
+    },
+  },
+  { upsert: true },
+);
+
+await Setting.findOneAndUpdate(
+  { key: 'socialLinks' },
+  {
+    key: 'socialLinks',
+    value: {
+      facebook: '',
+      instagram: '',
+      linkedin: '',
+      youtube: '',
+      googleBusiness: '',
     },
   },
   { upsert: true },

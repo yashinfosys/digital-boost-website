@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dboost.yashinfosystem.in/sitemap.xml

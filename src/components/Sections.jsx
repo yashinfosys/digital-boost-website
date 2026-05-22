@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check, ChevronDown, Quote, Star } from 'lucide-react';
 import { useState } from 'react';
-import { faqs, portfolio, processSteps, reasons, services, testimonials } from '../data';
+import { faqs, portfolio, processSteps, reasons, services, technologyStack, testimonials } from '../data';
 import { usePublicData } from '../lib/usePublicData';
 
 export const fadeUp = {
@@ -68,13 +68,87 @@ export function WhyChoose() {
   return (
     <section className="bg-white/[0.03] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionTitle eyebrow="Why Choose Us" title="Technology, Creativity And Hospitality Marketing Focus" />
+        <SectionTitle eyebrow="Why Choose Us" title="AI, Cloud Technology And Hospitality Marketing Expertise">
+          Digital Boost combines 14+ years of Yash Infosystems technology experience with hospitality SEO services, Google review management, Meta Ads and smart QR based marketing.
+        </SectionTitle>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {reasons.map(([title, Icon], index) => (
             <motion.div key={title} className="glass rounded-lg p-6" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp} transition={{ delay: index * 0.04 }}>
               <Icon className="mb-5 text-boost-yellow" size={30} />
               <h3 className="text-xl font-black text-white">{title}</h3>
             </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function AboutPremium() {
+  const highlights = [
+    'AI Review Management',
+    'Google Business Optimization',
+    'Meta Ads & Lead Generation',
+    'SEO & Website Development',
+    'QR Based Smart Marketing',
+    'Smart CMS Solutions',
+    'Cloud Based Business Automation',
+    'Smart Analytics & Performance Tracking',
+  ];
+
+  return (
+    <section className="px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <motion.div className="glass rounded-lg p-6 sm:p-8" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-boost-yellow">About Digital Boost</p>
+          <h2 className="mt-3 text-3xl font-black leading-tight text-white sm:text-4xl">A Premium Hospitality Digital Marketing And Technology Unit</h2>
+          <p className="mt-5 text-sm leading-7 text-zinc-300 sm:text-base">
+            Digital Boost is a Digital Unit of Yash Infosystems helping hotels, restaurants, cafes, resorts, rooftop bars, banquet halls and local businesses grow digitally using AI, cloud technology, automation, branding and performance marketing.
+          </p>
+          <p className="mt-4 text-sm leading-7 text-zinc-300 sm:text-base">
+            Backed by 14+ years of industry experience, we build modern digital systems that improve Google visibility, direct inquiries, guest trust, lead generation, review performance and long-term brand recall.
+          </p>
+          <Link to="/about" className="mt-7 inline-flex items-center gap-2 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black transition hover:bg-white">
+            Explore Our Approach
+            <ArrowRight size={16} />
+          </Link>
+        </motion.div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {highlights.map((item, index) => (
+            <motion.div key={item} className="glass group rounded-lg p-5 transition hover:-translate-y-1 hover:border-boost-yellow/50 hover:shadow-glow" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp} transition={{ delay: index * 0.035 }}>
+              <Check className="mb-4 text-boost-yellow" />
+              <h3 className="font-black text-white">{item}</h3>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function TechnologyStack() {
+  const { data } = usePublicData('/settings/public', {});
+  const cmsItems = data?.technologyStack?.itemsText
+    ?.split('\n')
+    .map((line) => line.split('|').map((part) => part.trim()))
+    .filter((item) => item.length === 3 && item.every(Boolean));
+  const items = cmsItems?.length ? cmsItems : technologyStack;
+
+  return (
+    <section className="bg-white/[0.03] px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <SectionTitle eyebrow="Technology We Use" title="Modern Cloud, AI And Marketing Technology Stack">
+          We combine proven engineering platforms with AI automation and performance marketing tools to build enterprise-level hospitality growth systems.
+        </SectionTitle>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {items.map(([name, logo, text], index) => (
+            <motion.article key={name} className="tech-card glass group rounded-lg p-5 transition hover:-translate-y-2 hover:border-boost-yellow/50 hover:shadow-glow" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.18 }} variants={fadeUp} transition={{ delay: index * 0.025 }}>
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-md border border-white/10 bg-black/45 p-3 transition group-hover:border-boost-yellow/60">
+                <img src={logo} alt={`${name} official logo`} className="h-9 w-9 object-contain" loading="lazy" />
+              </div>
+              <h3 className="text-lg font-black text-white">{name}</h3>
+              <p className="mt-3 text-sm leading-6 text-zinc-400">{text}</p>
+            </motion.article>
           ))}
         </div>
       </div>
