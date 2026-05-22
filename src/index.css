@@ -141,6 +141,15 @@ option {
   white-space: nowrap;
 }
 
+.platform-marquee {
+  width: max-content;
+  animation: marqueeSlide 32s linear infinite;
+}
+
+.platform-marquee:hover {
+  animation-play-state: paused;
+}
+
 @keyframes floatShape {
   0%,
   100% {
@@ -196,6 +205,15 @@ option {
 @keyframes caret {
   50% {
     border-color: transparent;
+  }
+}
+
+@keyframes marqueeSlide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import SEO from '../components/SEO';
 import HeroSlider from '../components/HeroSlider';
 import CTA from '../components/CTA';
-import { AboutPremium, FAQ, InfographicDashboard, PortfolioGrid, Process, SectionTitle, ServiceGrid, TechnologyStack, Testimonials, UpcomingAIFeatures, WhyChoose } from '../components/Sections';
+import { AboutPremium, DigitalBoostSolutions, FAQ, InfographicDashboard, PortfolioGrid, Process, SectionTitle, ServiceGrid, TechnologyStack, Testimonials, UpcomingAIFeatures, WhyChoose } from '../components/Sections';
 import { seoFaqs, services } from '../data';
 
 export default function Home() {
@@ -15,7 +15,9 @@ export default function Home() {
         faqs={seoFaqs}
       />
       <HeroSlider />
+      <UpcomingAIFeatures />
       <AboutPremium />
+      <DigitalBoostSolutions />
       <section className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionTitle eyebrow="Core Services" title="Hospitality Digital Marketing, SEO, Reviews And Website Growth">
@@ -27,7 +29,6 @@ export default function Home() {
       <WhyChoose />
       <InfographicDashboard />
       <TechnologyStack />
-      <UpcomingAIFeatures />
       <Process />
       <section className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">

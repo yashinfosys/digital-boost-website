@@ -1,7 +1,34 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, ChevronDown, Quote, Star, X } from 'lucide-react';
+import {
+  ArrowRight,
+  BarChart3,
+  Bot,
+  BrainCircuit,
+  Building2,
+  Check,
+  ChevronDown,
+  Cloud,
+  Code2,
+  CreditCard,
+  Globe2,
+  Languages,
+  Megaphone,
+  MessageCircle,
+  MonitorSmartphone,
+  Quote,
+  Search,
+  ShieldAlert,
+  ShoppingCart,
+  Sparkles,
+  Star,
+  Store,
+  TrendingUp,
+  Users,
+  X,
+  Zap,
+} from 'lucide-react';
 import { useState } from 'react';
 import { faqs, portfolio, processSteps, reasons, serviceDetails, services, technologyStack, testimonials } from '../data';
 import { usePublicData } from '../lib/usePublicData';
@@ -296,53 +323,184 @@ export function InfographicDashboard() {
 }
 
 export function UpcomingAIFeatures() {
-  const platforms = ['Google', 'Booking.com', 'Agoda', 'MakeMyTrip', 'Goibibo', 'Airbnb', 'Zomato', 'Swiggy', 'OTA'];
-  const features = ['AI-generated personalized replies', 'Multi-language support', 'Smart sentiment analysis', 'Negative review escalation', 'Brand tone customization', 'Auto-categorization', 'Hotel-specific reply intelligence', 'Restaurant review automation', 'Dashboard analytics', 'Review response templates'];
+  const platforms = ['Google Reviews', 'Booking.com', 'Agoda', 'MakeMyTrip', 'Goibibo', 'Airbnb', 'Zomato', 'Swiggy', 'Tripadvisor', 'Food Delivery Apps'];
+  const features = [
+    [MessageCircle, 'Google Review AI Replies', 'Human-like replies shaped for hotel guest experience and local SEO trust.'],
+    [Cloud, 'OTA Review Automation', 'Monitor and respond across Booking.com, Agoda, MakeMyTrip, Goibibo and Airbnb.'],
+    [Store, 'Food Delivery Review Replies', 'Restaurant response intelligence for Zomato, Swiggy and food delivery feedback.'],
+    [Languages, 'Multi-language AI Replies', 'Reply suggestions for regional and international hospitality audiences.'],
+    [BrainCircuit, 'Sentiment Analysis', 'Detect happy, neutral and negative guest intent before it impacts reputation.'],
+    [ShieldAlert, 'Negative Review Detection', 'Escalate sensitive complaints to managers before public trust drops.'],
+    [Sparkles, 'Brand Tone Customization', 'Keep every AI response aligned with your brand voice and service standard.'],
+    [Bot, 'AI Hospitality Intelligence', 'Hotel-specific and restaurant-specific reply logic built for real operations.'],
+    [BarChart3, 'Dashboard Analytics', 'Track review health, response speed, platform trends and reputation score.'],
+    [Zap, 'Smart Auto Categorization', 'Automatically classify reviews by service, food, staff, room, ambience and issue type.'],
+  ];
 
   return (
-    <section className="bg-white/[0.03] px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div>
-          <span className="inline-flex rounded-md border border-boost-yellow/40 bg-boost-yellow/10 px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-boost-yellow">Coming Soon</span>
-          <h2 className="mt-5 text-3xl font-black leading-tight text-white sm:text-5xl">DBOOST AI Review Reply System</h2>
-          <p className="mt-5 text-base leading-8 text-zinc-300">
-            Digital Boost is building an advanced AI-powered review management engine capable of generating smart, human-like, hospitality-focused replies for Google Reviews, OTA platforms, food delivery apps and restaurant review platforms.
+    <section className="relative isolate overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+      <div className="ai-grid-bg" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_10%,rgba(250,204,21,0.2),transparent_28rem),radial-gradient(circle_at_82%_20%,rgba(34,211,238,0.12),transparent_26rem),linear-gradient(180deg,rgba(255,255,255,0.035),rgba(0,0,0,0.18))]" />
+      <div className="mx-auto max-w-7xl">
+        <motion.div className="mx-auto max-w-4xl text-center" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.35 }} variants={fadeUp}>
+          <span className="inline-flex rounded-md border border-boost-yellow/40 bg-boost-yellow/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-boost-yellow">🚀 Coming Soon</span>
+          <h2 className="mt-6 text-balance text-4xl font-black leading-tight text-white sm:text-6xl">DBOOST AI Review Reply System</h2>
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-zinc-300 sm:text-lg">
+            Digital Boost is building an advanced AI-powered review management engine capable of generating smart, human-like, hospitality-focused replies for Google Reviews, OTA platforms, food delivery apps, and restaurant review platforms.
           </p>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {platforms.map((item) => (
-              <span key={item} className="rounded-md border border-white/10 bg-black/35 px-3 py-2 text-xs font-bold text-zinc-200">{item}</span>
-            ))}
-          </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {features.map((item) => (
-              <p key={item} className="flex gap-2 text-sm leading-6 text-zinc-300">
-                <Check className="mt-1 shrink-0 text-boost-yellow" size={16} />
-                {item}
-              </p>
-            ))}
-          </div>
-        </div>
-        <div className="glass relative overflow-hidden rounded-xl p-5">
-          <div className="ai-grid-bg opacity-40" />
-          <div className="relative mx-auto grid h-56 w-56 place-items-center rounded-full border border-boost-yellow/30 bg-boost-yellow/10 shadow-glow">
-            <div className="h-32 w-32 rounded-full border border-white/15 bg-black/50 p-5">
-              <div className="h-full w-full rounded-full bg-[radial-gradient(circle,rgba(250,204,21,0.75),rgba(250,204,21,0.08))] animate-pulse" />
+        </motion.div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <motion.div className="glass relative overflow-hidden rounded-xl p-5 sm:p-7" initial={{ opacity: 0, x: -28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }}>
+            <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full border border-boost-yellow/30 bg-boost-yellow/10 blur-sm" />
+            <div className="grid gap-4 sm:grid-cols-2">
+              {features.map(([Icon, title, text], index) => (
+                <motion.article key={title} className="tech-card group rounded-lg border border-white/10 bg-black/35 p-4 transition hover:-translate-y-1 hover:border-boost-yellow/50 hover:shadow-glow" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp} transition={{ delay: index * 0.025 }}>
+                  <Icon className="mb-4 text-boost-yellow transition group-hover:scale-110" size={24} />
+                  <h3 className="font-black text-white">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-zinc-400">{text}</p>
+                </motion.article>
+              ))}
             </div>
-          </div>
-          <div className="mt-6 rounded-lg border border-white/10 bg-black/55 p-4 font-mono text-sm text-zinc-200">
-            <p className="text-boost-yellow">AI Reply Preview</p>
-            <p className="mt-3 leading-7 typing-line">Thank you for your valuable feedback. We are delighted you enjoyed your stay and our hospitality team looks forward to welcoming you again.</p>
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            {['Sentiment', 'Escalation', 'Templates'].map((item) => (
-              <div key={item} className="rounded-lg border border-white/10 bg-black/35 p-3 text-center">
-                <p className="text-xs font-bold text-zinc-400">{item}</p>
-                <p className="mt-1 text-lg font-black text-boost-yellow">Active</p>
+          </motion.div>
+
+          <motion.div className="glass relative overflow-hidden rounded-xl p-5 sm:p-7" initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }}>
+            <div className="relative mx-auto mb-6 grid h-52 w-52 place-items-center rounded-full border border-boost-yellow/30 bg-boost-yellow/10 shadow-glow">
+              <svg viewBox="0 0 220 220" className="absolute inset-0 h-full w-full animate-spin [animation-duration:18s]">
+                <circle cx="110" cy="110" r="84" fill="none" stroke="rgba(250,204,21,0.35)" strokeWidth="1" strokeDasharray="8 10" />
+                <path d="M42 108 C70 38, 148 38, 178 108 C150 180, 72 180, 42 108Z" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" />
+                <circle cx="70" cy="76" r="5" fill="#facc15" />
+                <circle cx="150" cy="72" r="5" fill="#facc15" />
+                <circle cx="110" cy="150" r="5" fill="#facc15" />
+              </svg>
+              <BrainCircuit className="relative text-boost-yellow" size={70} />
+            </div>
+            <div className="rounded-lg border border-white/10 bg-black/60 p-4">
+              <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-3">
+                <p className="font-black text-white">AI Dashboard Preview</p>
+                <span className="rounded-md bg-boost-yellow px-2 py-1 text-xs font-black text-black">Live Mockup</span>
+              </div>
+              <div className="mt-4 grid gap-3">
+                {[
+                  ['Incoming review', 'Guest loved rooftop ambience but mentioned slow service.'],
+                  ['AI generated reply', 'Thank you for appreciating our rooftop ambience. We are improving service speed and hope to welcome you again soon.'],
+                  ['Sentiment score', 'Positive 82%'],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-boost-yellow">{label}</p>
+                    <p className="mt-2 text-sm leading-6 text-zinc-300">{value}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 h-24 rounded-md border border-white/10 bg-[linear-gradient(180deg,rgba(250,204,21,0.18),transparent)] p-3">
+                <div className="flex h-full items-end gap-2">
+                  {[35, 62, 48, 82, 70, 92, 78].map((height, index) => (
+                    <motion.div key={index} className="flex-1 rounded-t bg-boost-yellow" initial={{ height: 0 }} whileInView={{ height: `${height}%` }} viewport={{ once: true }} transition={{ delay: index * 0.05, duration: 0.7 }} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="mt-10 overflow-hidden rounded-xl border border-white/10 bg-black/35 py-4">
+          <p className="mb-4 text-center text-xs font-black uppercase tracking-[0.2em] text-boost-yellow">Supported Platforms</p>
+          <div className="platform-marquee flex gap-3">
+            {[...platforms, ...platforms].map((item, index) => (
+              <div key={`${item}-${index}`} className="flex min-w-max items-center gap-3 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:scale-105 hover:border-boost-yellow/50">
+                <span className="grid h-8 w-8 place-items-center rounded-md bg-boost-yellow text-xs font-black text-black">{item.slice(0, 2).toUpperCase()}</span>
+                <span className="text-sm font-bold text-zinc-200">{item}</span>
               </div>
             ))}
           </div>
         </div>
+
+        <div className="mt-10 glass rounded-xl p-6 text-center">
+          <h3 className="text-2xl font-black text-white">Let AI Handle Your Brand Reputation</h3>
+          <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
+            {['Join Early Access', 'Book Free Demo', 'Get AI Consultation'].map((label, index) => (
+              <Link key={label} to="/contact" className={`${index === 0 ? 'bg-boost-yellow text-black' : 'border border-boost-yellow/40 text-boost-yellow hover:bg-boost-yellow hover:text-black'} inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-black transition`}>
+                {label}
+                <ArrowRight size={16} />
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
+    </section>
+  );
+}
+
+export function DigitalBoostSolutions() {
+  const [selected, setSelected] = useState(null);
+  const solutionCards = [
+    ['Website Development', Code2, 'SEO-ready business websites with CMS, forms, WhatsApp and premium UI.'],
+    ['Web-Based Software', MonitorSmartphone, 'Custom dashboards, portals and workflow software for operations.'],
+    ['SaaS Platforms', Cloud, 'Scalable subscription-ready products and cloud application systems.'],
+    ['Social Media Marketing', Megaphone, 'Content, reels, campaigns and brand engagement for growth.'],
+    ['SEO & Google Ranking', Search, 'Local SEO, service pages, blog clusters and Google visibility.'],
+    ['Meta & Google Ads', TrendingUp, 'Performance campaigns for inquiries, bookings and sales.'],
+    ['Branding & Creative Design', Sparkles, 'Premium brand identity, campaign hooks and creative direction.'],
+    ['AI Review Management', BrainCircuit, 'AI workflows for reviews, replies, sentiment and reputation.'],
+    ['QR Smart Landing Pages', Zap, 'QR-first lead capture pages for campaigns and offline-to-online growth.'],
+    ['WhatsApp Marketing', MessageCircle, 'Smart message flows, offer follow-ups and lead nurturing.'],
+    ['Digital Payment Integration', CreditCard, 'Payment-ready digital flows for bookings, stores and service sales.'],
+    ['E-Commerce Solutions', ShoppingCart, 'Online catalogs, product selling systems and digital commerce flows.'],
+  ];
+  const industries = [
+    [Building2, 'Hotels'],
+    [Store, 'Restaurants'],
+    [MessageCircle, 'Cafes'],
+    [Zap, 'Startups'],
+    [Globe2, 'Local Businesses'],
+    [ShoppingCart, 'Retail Stores'],
+    [ShieldAlert, 'Healthcare'],
+    [Users, 'Education'],
+  ];
+
+  const makeDetails = (title, text) => ({
+    seoTitle: `${title} For Digital Growth, Automation And Online Brand Visibility`,
+    intro: `${text} Digital Boost builds this solution with AI-powered marketing thinking, cloud-ready technology, SEO structure and conversion-focused UX.`,
+    benefits: ['Better online visibility and trust', 'Premium customer experience', 'Lead-focused digital journeys', 'Scalable technology foundation'],
+    features: ['Strategy planning', 'UX and content direction', 'SEO-ready structure', 'Analytics and conversion focus'],
+    process: ['Discover business goal', 'Design the growth system', 'Build and integrate', 'Launch, track and improve'],
+    related: ['AI Automation', 'Branding', 'Performance Marketing'],
+  });
+
+  return (
+    <section className="relative isolate overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(250,204,21,0.16),transparent_26rem),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(0,0,0,0.12))]" />
+      <div className="mx-auto max-w-7xl">
+        <SectionTitle eyebrow="🚀 DBOOST" title="Digital Marketing, Software, Branding & Online Growth Solutions">
+          Powering Digital Growth through AI-powered marketing, cloud solutions, branding, automation and performance campaigns for hospitality brands and modern businesses.
+        </SectionTitle>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {solutionCards.map(([title, Icon, text], index) => (
+            <motion.article key={title} className="glass group relative cursor-pointer rounded-lg p-5 transition hover:-translate-y-2 hover:border-boost-yellow/50 hover:shadow-glow" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.18 }} variants={fadeUp} transition={{ delay: index * 0.025 }} onClick={() => setSelected({ title, Icon, text, details: makeDetails(title, text) })} role="button" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && setSelected({ title, Icon, text, details: makeDetails(title, text) })}>
+              <Icon className="mb-4 text-boost-yellow transition group-hover:scale-110" size={28} />
+              <h3 className="font-black text-white">{title}</h3>
+              <p className="mt-3 text-sm leading-6 text-zinc-400">{text}</p>
+              <div className="pointer-events-none absolute left-4 right-4 top-4 translate-y-2 rounded-md border border-boost-yellow/30 bg-black/90 p-3 text-xs leading-5 text-zinc-200 opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">
+                Click to view SEO-friendly details, benefits, process and CTA.
+              </div>
+            </motion.article>
+          ))}
+        </div>
+        <div className="mt-14">
+          <h3 className="text-center text-2xl font-black text-white">Best For</h3>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {industries.map(([Icon, label], index) => (
+              <motion.div key={label} className="glass flex items-center gap-4 rounded-lg p-4 transition hover:-translate-y-1 hover:border-boost-yellow/50 hover:shadow-glow" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} transition={{ delay: index * 0.04 }}>
+                <div className="grid h-12 w-12 place-items-center rounded-md bg-boost-yellow/15 text-boost-yellow">
+                  <Icon size={22} />
+                </div>
+                <p className="font-black text-white">{label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {selected && <ServiceModal service={selected} onClose={() => setSelected(null)} />}
     </section>
   );
 }
