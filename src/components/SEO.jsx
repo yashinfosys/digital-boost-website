@@ -1,9 +1,12 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { keywords as defaultKeywords } from '../data';
+import { useContactSettings } from '../lib/contactSettings';
 
 export default function SEO({ title, description, keywords = defaultKeywords, path = '/' }) {
-  const url = `https://yashinfosystem.in${path}`;
+  const contact = useContactSettings();
+  const baseUrl = contact.websiteUrl || 'https://dboost.yashinfosystem.in';
+  const url = `${baseUrl}${path}`;
 
   return (
     <Helmet>
@@ -21,8 +24,10 @@ export default function SEO({ title, description, keywords = defaultKeywords, pa
           '@type': 'LocalBusiness',
           name: 'Digital Boost',
           description,
-          telephone: '+91 5224060841',
-          url: 'https://yashinfosystem.in',
+          telephone: contact.phone,
+          email: contact.email || undefined,
+          address: contact.address || undefined,
+          url: baseUrl,
           parentOrganization: {
             '@type': 'Organization',
             name: 'Yash Infosystems',

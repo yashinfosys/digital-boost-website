@@ -7,8 +7,11 @@ import {
   Image,
   LayoutDashboard,
   LogOut,
+  Mail,
+  MapPin,
   MessageSquare,
   Package,
+  Phone,
   Settings,
   Shield,
   Sparkles,
@@ -16,6 +19,7 @@ import {
   Users,
 } from 'lucide-react';
 import { apiRequest, API_BASE, setToken } from '../lib/api';
+import { defaultContactSettings, normalizeContactSettings } from '../lib/contactSettings';
 
 const resources = {
   pages: {
@@ -79,6 +83,7 @@ const nav = [
   ['FAQ', '/admin/faqs', MessageSquare],
   ['Inquiries', '/admin/inquiries', BarChart3],
   ['Media', '/admin/media', Image],
+  ['Contact Details', '/admin/contact-details', Phone],
   ['Settings', '/admin/settings', Settings],
   ['Admins', '/admin/admins', Shield],
 ];
@@ -382,6 +387,108 @@ function SettingsPage() {
   );
 }
 
+function ContactDetailsPage() {
+  const [form, setForm] = useState(defaultContactSettings);
+  const [message, setMessage] = useState('');
+  const contact = useMemo(() => normalizeContactSettings(form), [form]);
+
+  useEffect(() => {
+    apiRequest('/settings/public')
+      .then((data) => setForm({ ...defaultContactSettings, ...(data.contact || {}) }))
+      .catch(() => setForm(defaultContactSettings));
+  }, []);
+
+  const updateField = (field, value) => {
+    setMessage('');
+    setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const save = async (event) => {
+    event.preventDefault();
+    const payload = {
+      ...form,
+      phoneNumber: contact.phoneNumber,
+      alternatePhoneNumber: contact.alternatePhoneNumber,
+      whatsappNumber: contact.whatsappNumber,
+    };
+    await apiRequest('/settings/contact', {
+      method: 'PUT',
+      body: JSON.stringify({ value: payload }),
+    });
+    setForm(payload);
+    setMessage('Contact details saved successfully');
+  };
+
+  const fields = [
+    ['phone', 'Display Phone Number', 'text', 'Example: +91 9554589777'],
+    ['phoneNumber', 'Call Number Digits', 'text', 'Example: 919554589777'],
+    ['alternatePhone', 'Alternate Phone Display', 'text', 'Optional'],
+    ['alternatePhoneNumber', 'Alternate Call Digits', 'text', 'Optional'],
+    ['whatsappNumber', 'WhatsApp Number Digits', 'text', 'Example: 919554589777'],
+    ['whatsappMessage', 'WhatsApp Prefilled Message', 'textarea', 'Message sent with WhatsApp link'],
+    ['email', 'Email Address', 'email', 'Optional'],
+    ['website', 'Website', 'text', 'dboost.yashinfosystem.in'],
+    ['address', 'Office Address', 'textarea', 'Optional'],
+    ['mapEmbedUrl', 'Google Map Embed URL', 'textarea', 'Paste iframe src only'],
+  ];
+
+  return (
+    <AdminLayout>
+      <form onSubmit={save} className="glass rounded-lg p-5">
+        <div className="flex flex-col gap-4 border-b border-white/10 pb-5 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-boost-yellow">Public Contact</p>
+            <h2 className="mt-2 text-2xl font-black">Contact Details</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">Manage phone, WhatsApp, email, website, address and map details shown on the website.</p>
+          </div>
+          <button className="rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black">Save Details</button>
+        </div>
+
+        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+          {fields.map(([field, label, type, placeholder]) => (
+            <label key={field} className={`grid gap-1 text-sm font-bold text-zinc-300 ${type === 'textarea' ? 'lg:col-span-2' : ''}`}>
+              {label}
+              {type === 'textarea' ? (
+                <textarea className="min-h-24 rounded-md border border-white/10 bg-black/45 px-3 py-2 text-white outline-none focus:border-boost-yellow" placeholder={placeholder} value={form[field] || ''} onChange={(event) => updateField(field, event.target.value)} />
+              ) : (
+                <input type={type} className="rounded-md border border-white/10 bg-black/45 px-3 py-2 text-white outline-none focus:border-boost-yellow" placeholder={placeholder} value={form[field] || ''} onChange={(event) => updateField(field, event.target.value)} />
+              )}
+            </label>
+          ))}
+        </div>
+
+        {message && <p className="mt-4 rounded-md border border-boost-yellow/35 bg-boost-yellow/10 px-4 py-3 text-sm font-bold text-white">{message}</p>}
+      </form>
+
+      <div className="glass mt-6 rounded-lg p-5">
+        <h3 className="text-lg font-black">Live Link Preview</h3>
+        <div className="mt-4 grid gap-3 text-sm text-zinc-200 md:grid-cols-2">
+          <a href={contact.phoneHref} className="inline-flex items-center gap-2 rounded-md border border-white/10 px-3 py-2">
+            <Phone size={16} className="text-boost-yellow" />
+            {contact.phone}
+          </a>
+          <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md border border-white/10 px-3 py-2">
+            <MessageSquare size={16} className="text-boost-yellow" />
+            WhatsApp {contact.whatsappNumber}
+          </a>
+          {contact.email && (
+            <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2 rounded-md border border-white/10 px-3 py-2">
+              <Mail size={16} className="text-boost-yellow" />
+              {contact.email}
+            </a>
+          )}
+          {contact.address && (
+            <p className="inline-flex items-start gap-2 rounded-md border border-white/10 px-3 py-2">
+              <MapPin size={16} className="mt-0.5 shrink-0 text-boost-yellow" />
+              {contact.address}
+            </p>
+          )}
+        </div>
+      </div>
+    </AdminLayout>
+  );
+}
+
 function AdminsPage() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'admin', status: 'active' });
@@ -426,6 +533,7 @@ export default function AdminApp() {
       {Object.keys(resources).map((type) => <Route key={type} path={type} element={<ResourceManager type={type} />} />)}
       <Route path="inquiries" element={<Inquiries />} />
       <Route path="media" element={<MediaManager />} />
+      <Route path="contact-details" element={<ContactDetailsPage />} />
       <Route path="settings" element={<SettingsPage />} />
       <Route path="admins" element={<AdminsPage />} />
     </Routes>

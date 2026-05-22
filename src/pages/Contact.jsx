@@ -1,13 +1,14 @@
 import React from 'react';
 import { useMemo, useState } from 'react';
-import { ArrowRight, Globe2, MessageCircle, Phone } from 'lucide-react';
+import { ArrowRight, Globe2, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import SEO from '../components/SEO';
 import { PageHero } from '../components/Sections';
-import { brand } from '../data';
 import { apiRequest } from '../lib/api';
+import { useContactSettings } from '../lib/contactSettings';
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const contact = useContactSettings();
   const serviceOptions = useMemo(() => ['Hospitality Digital Marketing', 'AI Review System', 'Website Development', 'Landing Page Development', 'Meta Ads', 'GMB Setup', 'Influencer Marketing'], []);
 
   const handleSubmit = async (event) => {
@@ -48,15 +49,33 @@ export default function Contact() {
             <h2 className="text-2xl font-black text-white">Digital Boost</h2>
             <p className="mt-2 text-sm font-bold text-boost-yellow">A Digital Unit of Yash Infosystems</p>
             <div className="mt-8 space-y-4">
-              <a href={brand.phoneHref} className="flex items-center gap-3 text-sm font-bold text-white">
+              <a href={contact.phoneHref} className="flex items-center gap-3 text-sm font-bold text-white">
                 <Phone className="text-boost-yellow" size={19} />
-                {brand.phone}
+                {contact.phone}
               </a>
-              <a href={`https://${brand.website}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm font-bold text-white">
+              {contact.alternatePhoneHref && (
+                <a href={contact.alternatePhoneHref} className="flex items-center gap-3 text-sm font-bold text-white">
+                  <Phone className="text-boost-yellow" size={19} />
+                  {contact.alternatePhone}
+                </a>
+              )}
+              {contact.email && (
+                <a href={`mailto:${contact.email}`} className="flex items-center gap-3 text-sm font-bold text-white">
+                  <Mail className="text-boost-yellow" size={19} />
+                  {contact.email}
+                </a>
+              )}
+              <a href={contact.websiteUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm font-bold text-white">
                 <Globe2 className="text-boost-yellow" size={19} />
-                {brand.website}
+                {contact.website}
               </a>
-              <a href={brand.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black transition hover:bg-white">
+              {contact.address && (
+                <p className="flex items-start gap-3 text-sm font-bold leading-6 text-white">
+                  <MapPin className="mt-0.5 shrink-0 text-boost-yellow" size={19} />
+                  {contact.address}
+                </p>
+              )}
+              <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-boost-yellow px-5 py-3 text-sm font-black text-black transition hover:bg-white">
                 <MessageCircle size={18} />
                 WhatsApp Direct
               </a>
@@ -99,7 +118,7 @@ export default function Contact() {
           <div className="glass overflow-hidden rounded-2xl p-2">
             <iframe
               title="Digital Boost Google Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.2517055678886!2d80.9151396!3d26.8319454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfdc81b59bfcf%3A0xf0bd1fc52e663df0!2sDigital%20Boost!5e0!3m2!1sen!2sin!4v1779213792582!5m2!1sen!2sin"
+              src={contact.mapEmbedUrl}
               className="h-[360px] w-full rounded-xl border-0 sm:h-[450px]"
               allowFullScreen
               loading="lazy"

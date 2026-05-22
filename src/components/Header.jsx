@@ -2,10 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, MessageCircle, Phone, X } from 'lucide-react';
-import { brand, navItems } from '../data';
+import { navItems } from '../data';
+import { useContactSettings } from '../lib/contactSettings';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const contact = useContactSettings();
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-boost-yellow/20 bg-black/85 backdrop-blur-xl">
@@ -31,11 +33,11 @@ export default function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <a href={brand.phoneHref} className="inline-flex items-center gap-2 rounded-md border border-boost-yellow/30 px-4 py-2 font-['Rajdhani'] text-sm font-bold tracking-[0.08em] text-white transition hover:border-boost-yellow hover:text-boost-yellow">
+          <a href={contact.phoneHref} className="inline-flex items-center gap-2 rounded-md border border-boost-yellow/30 px-4 py-2 font-['Rajdhani'] text-sm font-bold tracking-[0.08em] text-white transition hover:border-boost-yellow hover:text-boost-yellow">
             <Phone size={16} />
-            {brand.phone}
+            {contact.phone}
           </a>
-          <a href={brand.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-boost-yellow px-4 py-2 font-['Rajdhani'] text-sm font-bold uppercase tracking-[0.08em] text-black transition hover:bg-white">
+          <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-boost-yellow px-4 py-2 font-['Rajdhani'] text-sm font-bold uppercase tracking-[0.08em] text-black transition hover:bg-white">
             <MessageCircle size={16} />
             WhatsApp
           </a>
@@ -55,11 +57,11 @@ export default function Header() {
               </NavLink>
             ))}
             <div className="grid gap-3 pt-3 sm:grid-cols-2">
-              <a href={brand.phoneHref} className="inline-flex items-center justify-center gap-2 rounded-md border border-white/10 px-4 py-3 text-sm font-bold text-white">
+              <a href={contact.phoneHref} className="inline-flex items-center justify-center gap-2 rounded-md border border-white/10 px-4 py-3 text-sm font-bold text-white">
                 <Phone size={16} />
-                {brand.phone}
+                {contact.phone}
               </a>
-              <a href={brand.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-md bg-boost-yellow px-4 py-3 text-sm font-black text-black">
+              <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-md bg-boost-yellow px-4 py-3 text-sm font-black text-black">
                 <MessageCircle size={16} />
                 WhatsApp
               </a>

@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { brand, heroSlides, stats } from '../data';
+import { heroSlides, stats } from '../data';
+import { useContactSettings } from '../lib/contactSettings';
 
 export default function HeroSlider() {
   const [active, setActive] = useState(0);
+  const contact = useContactSettings();
   const slide = heroSlides[active];
   const Icon = slide.icon;
 
@@ -39,7 +41,7 @@ export default function HeroSlider() {
               Get Free Consultation
               <ArrowRight size={18} />
             </Link>
-            <a href={brand.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-md border border-boost-yellow/40 px-6 py-4 text-sm font-black text-white transition hover:bg-boost-yellow hover:text-black">
+            <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-md border border-boost-yellow/40 px-6 py-4 text-sm font-black text-white transition hover:bg-boost-yellow hover:text-black">
               <MessageCircle size={18} />
               WhatsApp Now
             </a>

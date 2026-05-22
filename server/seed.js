@@ -164,10 +164,10 @@ await Setting.findOneAndUpdate(
       logo: '/assets/digital-boost-logo.png',
       favicon: '',
       brandColor: '#facc15',
-      phone: '+91 5224060841',
-      whatsapp: '915224060841',
+      phone: '+91 9554589777',
+      whatsapp: '919554589777',
       email: '',
-      website: 'yashinfosystem.in',
+      website: 'dboost.yashinfosystem.in',
       address: '',
       googleMapLink: '',
       whatsappFloatingButton: true,
@@ -175,6 +175,27 @@ await Setting.findOneAndUpdate(
       footerText: '© 2026 Digital Boost. A Digital Unit of Yash Infosystems. All Rights Reserved.',
       developerCredit: 'Designed & Developed by Yash Infosystems',
       developerWebsite: 'yashinfosystem.in',
+    },
+  },
+  { upsert: true },
+);
+
+await Setting.findOneAndUpdate(
+  { key: 'contact' },
+  {
+    key: 'contact',
+    value: {
+      phone: '+91 9554589777',
+      phoneNumber: '919554589777',
+      alternatePhone: '',
+      alternatePhoneNumber: '',
+      whatsappNumber: '919554589777',
+      whatsappMessage: 'Hello Digital Boost, I want to know more about your services.',
+      email: '',
+      website: 'dboost.yashinfosystem.in',
+      address: '',
+      mapEmbedUrl:
+        'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.2517055678886!2d80.9151396!3d26.8319454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfdc81b59bfcf%3A0xf0bd1fc52e663df0!2sDigital%20Boost!5e0!3m2!1sen!2sin!4v1779213792582!5m2!1sen!2sin',
     },
   },
   { upsert: true },

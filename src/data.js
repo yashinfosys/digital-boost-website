@@ -27,10 +27,10 @@ export const brand = {
   name: 'Digital Boost',
   unit: 'A Digital Unit of Yash Infosystems',
   parent: 'Yash Infosystems',
-  phone: '+91 5224060841',
-  phoneHref: 'tel:+915224060841',
-  whatsapp: 'https://wa.me/915224060841',
-  website: 'yashinfosystem.in',
+  phone: '+91 9554589777',
+  phoneHref: 'tel:+919554589777',
+  whatsapp: 'https://wa.me/919554589777',
+  website: 'dboost.yashinfosystem.in',
   tagline: 'From Visibility To Virality',
 };
 
