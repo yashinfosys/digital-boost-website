@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #ffffff;
+  background: #050505;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(250, 204, 21, 0.18), transparent 28rem),
+    radial-gradient(circle at 85% 12%, rgba(255, 255, 255, 0.09), transparent 24rem),
+    linear-gradient(180deg, #050505 0%, #101010 48%, #050505 100%);
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+option {
+  background: #090909;
+  color: #ffffff;
+}
+
+.glass {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035));
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(18px);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.shape {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.shape-one {
+  right: 8%;
+  top: 16%;
+  width: 180px;
+  height: 180px;
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  border-radius: 32px;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(255, 255, 255, 0.03));
+  box-shadow: 0 30px 80px rgba(250, 204, 21, 0.16);
+  animation: floatShape 7s ease-in-out infinite;
+}
+
+.shape-two {
+  left: 5%;
+  bottom: 10%;
+  width: 110px;
+  height: 110px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35), rgba(250, 204, 21, 0.22) 42%, rgba(0, 0, 0, 0.15));
+  box-shadow: 0 30px 70px rgba(250, 204, 21, 0.12);
+  animation: floatShape 8s ease-in-out infinite reverse;
+}
+
+.agency-panel {
+  min-height: 520px;
+  background:
+    radial-gradient(circle at 28% 15%, rgba(250, 204, 21, 0.32), transparent 28%),
+    radial-gradient(circle at 78% 38%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(145deg, rgba(250, 204, 21, 0.08), rgba(0, 0, 0, 0.84));
+}
+
+@keyframes floatShape {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(8deg);
+  }
+  50% {
+    transform: translate3d(0, -18px, 30px) rotate(16deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .agency-panel {
+    min-height: 430px;
+  }
+
+  .shape-one {
+    right: -42px;
+    top: 120px;
+    width: 115px;
+    height: 115px;
+  }
+
+  .shape-two {
+    left: -32px;
+    width: 80px;
+    height: 80px;
+  }
+}
